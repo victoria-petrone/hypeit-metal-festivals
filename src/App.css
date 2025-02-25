@@ -6,12 +6,9 @@ body {
 }
 
 .content {
-  display: flex;
   min-height: 100vh;
   line-height: 1.1;
   text-align: center;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .content h1 {
@@ -23,4 +20,19 @@ body {
   font-size: 1.2rem;
   font-weight: 400;
   opacity: 0.5;
+}
+
+.content a {
+  color: #4ea8de;
+  text-decoration: none;
+  font-weight: 600;
+  text-decoration: underline;
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.content a:hover {
+  color: #74c0fc;
+  text-shadow: 0 0 10px rgba(116, 192, 252, 0.7);
 }

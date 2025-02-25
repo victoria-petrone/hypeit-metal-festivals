@@ -8,9 +8,6 @@
     "useDefineForClassFields": true,
     "baseUrl": "./",
     "paths": {
-      "@common*": ["src/common"],
-      "@features*": ["src/features"],
-      "@pages*": ["src/pages"],
       "@test-utils*": ["test-utils"]
     },
 
@@ -20,7 +17,6 @@
     "resolveJsonModule": true,
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
-
     "esModuleInterop": true,
 
     /* type checking */

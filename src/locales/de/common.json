@@ -1,8 +1,0 @@
-{
-  "HEADLINE": "Willkommen in unserem Template",
-  "SUBTITLE": "Das ist ein Beispiel Layout für eine React Anwendung.",
-  "BUTTON": {
-    "CLICK_ME": "Klick Mich",
-    "HELLO": "Hallo"
-  }
-}
