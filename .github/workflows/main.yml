@@ -1,0 +1,92 @@
+name: main
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  commitlint:
+    name: Lint Commit Messages
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: wagoid/commitlint-github-action@v5
+
+  test-and-build:
+    name: Test and Build
+    runs-on: ubuntu-latest
+    needs: commitlint
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install Dependencies
+        run: npm ci
+        env:
+          FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_READ_TOKEN }}
+      - name: TypeScript Check
+        run: npm run type-check
+      - name: ESLint Check
+        run: npm run lint
+      - name: Run Unit Tests
+        run: npm run test
+      - name: Run Build
+        run: npm run build
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: dist/**
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: test-and-build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: 'Prepare: Bump version and push tag'
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          skip-on-empty: 'true'
+          output-file: 'false'
+          git-message: 'chore(release): {version}'
+          tag-prefix: 'v'
+      - name: 'Release: Create Release on Github'
+        if: ${{ steps.changelog.outputs.skipped != 'true' && steps.changelog.outputs.tag != ''}}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+          draft: false
+          prerelease: false
+      - name: 'MSTeams Notify: Notify Release'
+        if: ${{ steps.changelog.outputs.skipped != 'true' && steps.changelog.outputs.tag != '' }}
+        run: |
+          TAG=${{ steps.changelog.outputs.tag }}
+          REPO="${{ github.repository }}"
+          ACTOR="${{ github.actor }}"
+          TEAMS_WEBHOOK_URL="${{ secrets.MSTEAMS_WEBHOOK_URL_GITHUB }}"
+
+          chmod +x .github/scripts/release_note.sh
+          .github/scripts/release_note.sh "$TAG" "$REPO" "$ACTOR" "$TEAMS_WEBHOOK_URL"
