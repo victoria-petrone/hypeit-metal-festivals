@@ -4,6 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
+
   return (
     <>
       <Stack className="content" justify="center">
