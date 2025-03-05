@@ -27,9 +27,10 @@ Welcome to the frontend challenge! In this task, your goal is to create a simple
 
 ## Requirements:
 
+- **Before you begin**, check out the API response [here](https://zwctsaw30g.execute-api.eu-central-1.amazonaws.com/events).
 - **Create a page** that displays a list of metal festivals.
 - Include a **search bar** to filter festivals by name or other details.
-- Display the festivals in **cards**, showing key details like the name, date, location, and description.
+- Display the festivals in **cards**, showing key details like e.g. the name, date, location, and image.
 - When you **click a card** it should show more details for the festival.
 
 ## Libraries & Tools:
@@ -55,11 +56,7 @@ Welcome to the frontend challenge! In this task, your goal is to create a simple
 
 ## Scope:
 
-This challenge should take **a few hours** to complete. Don't worry if you don’t finish everything—focus on demonstrating the skills that we’re looking for.
-
-## Bonus (Optional):
-
-You can add features such as sorting, pagination, or improving UI design. Feel free to add any other enhancements you think could improve the project.
+This challenge should take **about 4 hours** to complete. Don't worry if you don’t finish everything—focus on giving us insight into how you work.
 
 ## Submission:
 
