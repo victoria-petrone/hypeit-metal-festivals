@@ -1,6 +1,7 @@
 import React from 'react';
-import { Stack, Text, Title } from '@mantine/core';
-import { Trans, useTranslation } from 'react-i18next';
+import { Stack, Title } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
+import { FestivalList } from 'src/components/festivalList';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -8,26 +9,10 @@ export const Home: React.FC = () => {
   return (
     <>
       <Stack className="content" justify="center">
-        <Title order={1} mb="lg">
-          {t('HEADLINE')}
+        <Title order={1} mt="lg">
+          {t('FESTIVALS')}
         </Title>
-        <Stack gap="sm">
-          <Text>{t('GREETING')}</Text>
-          <Text>
-            <Trans
-              i18nKey="INFO"
-              components={{
-                a: (
-                  <a
-                    href="https://github.com/hypeIT-GmbH/hypeit-frontend-challenge/blob/main/README.md"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  />
-                ),
-              }}
-            />
-          </Text>
-        </Stack>
+        <FestivalList />
       </Stack>
     </>
   );

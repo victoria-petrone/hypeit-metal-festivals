@@ -1,4 +1,5 @@
 import React from 'react';
+import { DataProvider } from './DataProvider';
 import { MantineProvider } from './MantineProvider';
 import { ReactQueryProvider } from './ReactQueryProvider';
 
@@ -9,7 +10,9 @@ type AppProviderPropsType = {
 export const AppProvider: React.FC<AppProviderPropsType> = ({ children }) => {
   return (
     <MantineProvider>
-      <ReactQueryProvider>{children}</ReactQueryProvider>
+      <ReactQueryProvider>
+        <DataProvider>{children}</DataProvider>
+      </ReactQueryProvider>
     </MantineProvider>
   );
 };
